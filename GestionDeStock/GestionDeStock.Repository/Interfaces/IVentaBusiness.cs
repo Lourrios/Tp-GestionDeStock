@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GestionDeStock.Data.Interfaces
+namespace GestionDeStock.Business.Interfaces
 {
-    public interface IVentaRepository 
+    public interface IVentaBusiness
     {
-        Venta GetById(int id);
+        void RegistrarVenta(Venta venta);
+        Venta GetVentaById(int id);
         IEnumerable<Venta> GetAllVentas();
-        void Add(Venta venta);
     }
 }

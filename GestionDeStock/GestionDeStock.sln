@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GestionDeStock.Data", "Gest
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GestionDeStock.API", "GestionDeStock.API\GestionDeStock.API.csproj", "{29A26915-87FA-4074-84E5-664D8F47C5B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestionDeStock.Business", "GestionDeStock.Repository\GestionDeStock.Business.csproj", "{28E8D50F-6172-417A-815B-253C023734C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GestionDeStock.Business", "GestionDeStock.Repository\GestionDeStock.Business.csproj", "{28E8D50F-6172-417A-815B-253C023734C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

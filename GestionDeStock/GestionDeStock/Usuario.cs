@@ -11,12 +11,14 @@ namespace GestionDeStock
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UsuarioId { get; set; }
         public string? Nombre {  get; set; }
-        public string Hash { get; set; }
-        public string Salt { get; set; }
         [JsonIgnore]
-        public IEnumerable<Compra> Compras { get; set; }
+        public string? Hash { get; set; }
         [JsonIgnore]
-        public IEnumerable<Venta> Ventas { get; set; }
+        public string? Salt { get; set; }
+        [JsonIgnore]
+        public IEnumerable<Compra>? Compras { get; set; }
+        [JsonIgnore]
+        public IEnumerable<Venta>? Ventas { get; set; }
 
 
 

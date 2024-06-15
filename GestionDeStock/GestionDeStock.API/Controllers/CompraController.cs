@@ -16,10 +16,10 @@ namespace GestionDeStock.API.Controllers
             _compraRepository = compraRepository;
         }
 
-        [HttpGet("ListsGompras")]
+        [HttpGet("ListCompras")]
         public IEnumerable<Compra> GetCompra()
         {
-            return _compraRepository.GetAll();
+            return _compraRepository.GetAllCompras();
             //return _stockContext.Compras.ToList();
         }
         [HttpGet("CompraById/{id}")]
@@ -32,15 +32,15 @@ namespace GestionDeStock.API.Controllers
         {
             _compraRepository.Add(compra);
         }
-        [HttpPut("Editar")]
-        public void EditarCompra(Compra compra)
-        {
-            _compraRepository.Update(compra);
-        }
-        [HttpDelete ("Eliminar")]
-        public void DeleteCompra(int id)
-        {
-            _compraRepository.DeleteById(id);
-        }
+        //[HttpPut("Editar")]
+        //public void EditarCompra(Compra compra)
+        //{
+        //    _compraRepository.(compra);
+        //}
+        //[HttpDelete ("Eliminar")]
+        //public void DeleteCompra(int id)
+        //{
+        //    _compraRepository.DeleteById(id);
+        //}
     }
 }

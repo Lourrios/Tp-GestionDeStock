@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace GestionDeStock.Data.Interfaces
 {
-    public interface ICategoriaRepository : IRepository<Categoria>
+    public interface ICategoriaRepository 
     {
         // agregar metodos espeficos
+
+        Categoria GetById(int id);
+        IEnumerable<Categoria> GetAll();
+        void Add(Categoria categoria);
     }
 }

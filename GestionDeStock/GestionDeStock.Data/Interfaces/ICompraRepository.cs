@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace GestionDeStock.Data.Interfaces
 {
-    public interface ICompraRepository : IRepository<Compra>
+    public interface ICompraRepository 
     {
         // agregar metodos espeficos
+        Compra GetById(int id);
+        IEnumerable<Compra> GetAllCompras();
+        void Add(Compra compra);
     }
 }

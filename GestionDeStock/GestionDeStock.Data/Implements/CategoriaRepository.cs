@@ -1,4 +1,5 @@
 ﻿using GestionDeStock.Data.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +8,27 @@ using System.Threading.Tasks;
 
 namespace GestionDeStock.Data.Implements
 {
-    public class CategoriaRespository : Repository<Categoria> , ICategoriaRepository
+    public class CategoriaRespository : ICategoriaRepository
     {
-        public CategoriaRespository(GestionDeStockContext context): base(context) { }
+        private readonly GestionDeStockContext _stockContext;
+        public CategoriaRespository(GestionDeStockContext context){
+            _stockContext = context;   
+        }
+
+        public void Add(Categoria categoria)
+        {
+            _stockContext.Categorias.Add(categoria);
+            _stockContext.SaveChanges();
+        }
+
+        public IEnumerable<Categoria> GetAll()
+        {
+            return _stockContext.Categorias.ToList();
+        }
+
+        public Categoria GetById(int id) // verificar
+        {
+            return _stockContext.Categorias.Where(cat => cat.CategoriaId == id).Include("Productos").FirstOrDefault();
+        }
     }
 }
