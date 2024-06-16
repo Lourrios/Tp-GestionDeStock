@@ -1,8 +1,22 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Pagina de inicio";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="card" style="width: 24rem; margin-top: 20px;">
+        <div class="card-body">
+            <h5 class="card-title text-center">Gestión de Stock</h5>
+            <form>
+                <div class="form-group">
+                    <button type="button" onclick="location.href='@Url.Action("Ventas", "Home")'" class="btn btn-primary btn-block">Ir a Ventas</button>
+                </div>
+                <div class="form-group">
+                    <button type="button" onclick="location.href='@Url.Action("Compras", "Home")'" class="btn btn-secondary btn-block">Ir a Compras</button>
+                </div>
+                <div class="form-group">
+                    <button type="button" onclick="location.href='@Url.Action("Stock", "Home")'" class="btn btn-success btn-block">Ir a Stock</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
