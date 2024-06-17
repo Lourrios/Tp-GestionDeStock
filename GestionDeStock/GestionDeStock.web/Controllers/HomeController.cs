@@ -15,6 +15,11 @@ namespace GestionDeStock.web.Controllers
 
         public IActionResult Index()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("LogIn", "Account");
+            }
+
             return View();
         }
 
