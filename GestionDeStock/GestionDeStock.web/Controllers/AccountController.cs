@@ -16,15 +16,21 @@ namespace GestionDeStock.web.Controllers
         [HttpPost]
         public IActionResult Login(LoginViewModel model)
         {
-            // Validación básica (simulada)
-            if (model.Username == "dario" && model.Password == "12345")
+            if (ModelState.IsValid)
             {
-                return RedirectToAction("Index", "Home"); // Redirigir al inicio después del login exitoso
-            }
+                // Validación básica (simulada)
+                if (model.Username == "dario" && model.Password == "12345")
+                {
+                    // Guardar un simple estado de sesión para simular autenticación
+                    
+                    return RedirectToAction("Index", "Home"); // Redirigir al inicio después del login exitoso
+                }
 
-            ModelState.AddModelError(string.Empty, "Credenciales inválidas");
-            return View(model);
+                ModelState.AddModelError(string.Empty, "Credenciales inválidas");
+            }
+            return View(model); // Devolver la vista de login con el modelo para mostrar los errores
         }
+
     }
 }
 
