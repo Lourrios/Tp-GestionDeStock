@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GestionDeStock.Data\GestionDeStock.Data.csproj" />
+    <ProjectReference Include="..\GestionDeStock\GestionDeStock.Entities.csproj" />
+  </ItemGroup>
+
 </Project>

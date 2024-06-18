@@ -20,7 +20,7 @@ namespace GestionDeStock.API.Controllers
         public IEnumerable<Producto> GetProductos()
         {
             //return _stockContext.Productos.Include("Categoria").ToList();
-            return _productoRepository.GetProductosConCategoria();
+            return _productoRepository.GetAll();
 
         }
         [HttpGet("ProductoById")]
@@ -34,10 +34,10 @@ namespace GestionDeStock.API.Controllers
             _productoRepository.Add(producto);
         }
         [HttpDelete("Eliminar/{id}")]
-        public void DeleteProducto(int id)
-        {
-            _productoRepository.DeleteById(id);
-        }
+        //public void DeleteProducto(int id)
+        //{
+        //    _productoRepository.DeleteById(id);
+        //}
         [HttpPut("Editar")]
         public void UpdateProducto(Producto producto)
         {

@@ -17,9 +17,10 @@ namespace GestionDeStock
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ProductoId {  get; set; }
         public string? Nombre { get; set; }
-        [ForeignKey(nameof(Categoria))]
+        
         public int CategoriaId {  get; set; }
         [JsonIgnore] 
+        [ForeignKey(nameof(CategoriaId))]
         public Categoria Categoria { get; set; }
 
         public bool Habilitado {  get; set; }
