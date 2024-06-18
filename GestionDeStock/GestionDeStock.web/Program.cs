@@ -1,7 +1,23 @@
+using GestionDeStock.Data;
+using GestionDeStock.Data.Implements;
+using GestionDeStock.Data.Interfaces;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<GestionDeStockContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("StockConnection"));
+
+});
+
+
+builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
+builder.Services.AddScoped<ICompraRepository, CompraRespository>();
+builder.Services.AddScoped<ICompraBusiness, CompraBusiness>();
 
 var app = builder.Build();
 
