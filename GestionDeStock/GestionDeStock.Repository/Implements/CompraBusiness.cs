@@ -40,5 +40,10 @@ namespace GestionDeStock.Business.Implements
         {
            return _compraRepository.GetById(id);
         }
+
+        public (IEnumerable<Compra>,int) GetComprasPaginado(int paginaIndex, int paginaTamanio, string textoBusqueda)
+        {
+            return _compraRepository.GetComprasPaginado(paginaIndex, paginaTamanio, textoBusqueda);
+        }
     }
 }

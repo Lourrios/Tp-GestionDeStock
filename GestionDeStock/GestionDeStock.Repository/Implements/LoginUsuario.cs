@@ -21,7 +21,7 @@ namespace GestionDeStock.Business.Implements
             _usuarioRepository = usuarioRepository;
         }
 
-        public string RegistrarUsuario(Usuario usuario, string password) // usuario proveniente del form
+        public string RegistrarUsuario(Usuario usuario, string password) // usuario proveniente del formulario
         {
             
             // genero salt en bytes

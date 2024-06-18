@@ -21,7 +21,7 @@ namespace GestionDeStock
         public int CategoriaId {  get; set; }
         [JsonIgnore] 
         [ForeignKey(nameof(CategoriaId))]
-        public Categoria Categoria { get; set; }
+        public Categoria? Categoria { get; set; }
 
         public bool Habilitado {  get; set; }
 

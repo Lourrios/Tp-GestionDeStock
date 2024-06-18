@@ -12,5 +12,6 @@ namespace GestionDeStock.Business.Interfaces
         Compra GetCompraById(int id);
 
         IEnumerable<Compra> GetAllCompras();
+        (IEnumerable<Compra>,int) GetComprasPaginado(int paginaIndex, int paginaTamanio, string textoBusqueda);
     }
 }

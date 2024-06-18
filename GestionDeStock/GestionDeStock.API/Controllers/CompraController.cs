@@ -23,7 +23,7 @@ namespace GestionDeStock.API.Controllers
             //return _stockContext.Compras.ToList();
         }
         [HttpGet("CompraById/{id}")]
-        public Compra GetCOmpraById(int id)
+        public Compra GetCompraById(int id)
         {
             return _compraRepository.GetById(id);
         }
