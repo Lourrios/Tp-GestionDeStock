@@ -20,7 +20,7 @@ namespace GestionDeStock.API.Controllers
 
         }
         [HttpGet("validarUsuario/{userName}/{password}")]
-        public string ValidarUsuario(string userName, string password)
+        public bool ValidarUsuario(string userName, string password)
         {
             return _loginUsuario.VerificarUsuario(userName, password);
         }

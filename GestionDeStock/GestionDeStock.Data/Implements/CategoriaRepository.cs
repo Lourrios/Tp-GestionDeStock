@@ -23,7 +23,7 @@ namespace GestionDeStock.Data.Implements
 
         public IEnumerable<Categoria> GetAll()
         {
-            return _stockContext.Categorias.ToList();
+            return _stockContext.Categorias.Include("Productos").ToList();
         }
 
         public Categoria GetById(int id) // verificar

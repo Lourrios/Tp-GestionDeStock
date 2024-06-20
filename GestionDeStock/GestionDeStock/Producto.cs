@@ -15,17 +15,18 @@ namespace GestionDeStock
     {
         [Key] // llave primaria
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ProductoId {  get; set; }
+        public int ProductoId { get; set; }
         public string? Nombre { get; set; }
         
-        public int CategoriaId {  get; set; }
+        public int CategoriaId { get; set; }
         [JsonIgnore] 
         [ForeignKey(nameof(CategoriaId))]
         public Categoria? Categoria { get; set; }
 
-        public bool Habilitado {  get; set; }
+        public bool Habilitado { get; set; }
+
+      public decimal Precio { get; set; }
 
         
-
     }
 }
