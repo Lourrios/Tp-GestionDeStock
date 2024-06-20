@@ -8,7 +8,7 @@ namespace GestionDeStock.Business.Interfaces
 {
     public interface IProductoBusiness
     {
-        void AddProducto(Producto producto);
+        int AddProducto(Producto producto);
         void DeshabilitarProducto(int id);
         void UpdateProducto(Producto producto);
 

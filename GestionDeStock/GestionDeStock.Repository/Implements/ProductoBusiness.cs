@@ -22,9 +22,9 @@ namespace GestionDeStock.Business.Implements
         }
 
         // Alta
-        public void AddProducto(Producto producto)
+        public int AddProducto(Producto producto)
         {
-            _productoRepository.Add(producto);
+            return _productoRepository.Add(producto);
         }
 
         // Baja/Cancelacion de producto

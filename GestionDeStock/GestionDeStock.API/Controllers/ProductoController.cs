@@ -44,9 +44,15 @@ namespace GestionDeStock.API.Controllers
         }
 
         [HttpPost("Agregar")]
-        public void AddProducto(Producto producto)
+        public string AddProducto(Producto producto)
         {
-            _productoBusiness.AddProducto(producto);
+            
+            var result =_productoBusiness.AddProducto(producto);
+            if (result != 0)
+            {
+                return "No pueden existir 2 productos iguales";
+            }
+            return "Producto agregado correctamente";
         }
        
         [HttpPut("Editar")]

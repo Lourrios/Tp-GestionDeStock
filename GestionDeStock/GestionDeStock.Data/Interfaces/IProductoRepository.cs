@@ -12,7 +12,7 @@ namespace GestionDeStock.Data.Interfaces
 
         IEnumerable<Producto> GetAll();
         Producto GetById(int id);
-        void Add(Producto producto); 
+        int Add(Producto producto); 
         void DeshabilitarProducto(Producto producto);
         public void HabilitarProducto(Producto producto);
         void Update(Producto producto);

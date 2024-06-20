@@ -22,21 +22,22 @@ namespace GestionDeStock.Business.Implements
             _stockBusiness = stockBusiness;
         }
 
-        public void RegistrarVenta(Venta venta)
+        public int RegistrarVenta(Venta venta)
         {
             var productoVenta = _productoRepository.GetById(venta.ProductoId);
             if (productoVenta == null || productoVenta.Habilitado == false) // verifica producto existente y habilitado
             {
-                throw new InvalidOperationException("Producto no válido o no habilitado.");
+                return 1;
             }
             var stockProducto = _stockBusiness.ObtenerStockDeProducto(productoVenta.ProductoId);
             if (stockProducto < venta.Cantidad) // verifica stock suficiente
             {
-                throw new InvalidOperationException("Stock insuficiente.");
+                return 2;
             }
             venta.Fecha = DateTime.Now; // fecha actual
             _ventaRepository.Add(venta);
             _stockBusiness.ActualizarEstadoProducto(venta.ProductoId);
+            return 0;
         }
 
         public IEnumerable<Venta> GetAllVentas()

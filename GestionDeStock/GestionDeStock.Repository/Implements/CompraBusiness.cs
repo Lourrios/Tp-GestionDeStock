@@ -20,15 +20,16 @@ namespace GestionDeStock.Business.Implements
             _productoRepository = productoRepository;
         }
 
-        public void RegistrarCompra(Compra compra)
+        public int RegistrarCompra(Compra compra)
         {
             var productoCompra = _productoRepository.GetById(compra.ProductoId);
             if (productoCompra == null )
             {
-                throw new InvalidOperationException("Producto no válido");
+                return 1;
             }
             _compraRepository.Add(compra);
             _productoRepository.HabilitarProducto(productoCompra);
+            return 0;
         }
 
         public IEnumerable<Compra> GetAllCompras()
@@ -41,9 +42,9 @@ namespace GestionDeStock.Business.Implements
            return _compraRepository.GetById(id);
         }
 
-        public (IEnumerable<Compra>,int) GetComprasPaginado(int paginaIndex, int paginaTamanio, string textoBusqueda)
-        {
-            return _compraRepository.GetComprasPaginado(paginaIndex, paginaTamanio, textoBusqueda);
-        }
+        //public (IEnumerable<Compra>,int) GetComprasPaginado(int paginaIndex, int paginaTamanio, string textoBusqueda)
+        //{
+        //    return _compraRepository.GetComprasPaginado(paginaIndex, paginaTamanio, textoBusqueda);
+        //}
     }
 }

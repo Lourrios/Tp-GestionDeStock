@@ -20,7 +20,7 @@ namespace GestionDeStock.Data.Implements
         }
         public IEnumerable<Venta> GetAllVentas()
         {
-            return _stockContext.Ventas.Include(v => v.Producto).Include(v => v.Usuario).ToList();
+            return _stockContext.Ventas.Include(v => v.Producto).Include(v => v.Usuario).OrderByDescending(x=> x.Fecha).ToList();
         }
         public void Add(Venta venta)
         {
