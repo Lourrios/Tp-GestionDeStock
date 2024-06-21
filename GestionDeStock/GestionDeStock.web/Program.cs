@@ -22,7 +22,7 @@ builder.Services.AddScoped<ICompraRepository, CompraRespository>();
 builder.Services.AddScoped<ICompraBusiness, CompraBusiness>();
 builder.Services.AddScoped<ILoginUsuario, LoginUsuario>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
-builder.Services.AddScoped<IUsuarioRepository, UsuarioRespository>();
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
 var app = builder.Build();
 

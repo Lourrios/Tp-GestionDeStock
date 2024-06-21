@@ -21,11 +21,7 @@ namespace GestionDeStock.Business.Implements
             _usuarioRepository = usuarioRepository;
         }
 
-<<<<<<< HEAD
         public bool RegistrarUsuario(Usuario usuario, string password) // usuario proveniente del form
-=======
-        public string RegistrarUsuario(Usuario usuario, string password) // usuario proveniente del formulario
->>>>>>> ramaGonzalo
         {
             try {
                 if (_usuarioRepository.ExisteUsuario(usuario.Nombre))
