@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace GestionDeStock.Data.Implements
 {
-    public class UsuarioRespository : IUsuarioRepository
+    public class UsuarioRepository : IUsuarioRepository
     {
         private readonly GestionDeStockContext _stockContext;
-        public UsuarioRespository(GestionDeStockContext context) { 
+        public UsuarioRepository(GestionDeStockContext context) { 
             _stockContext = context;
         }
 

@@ -18,7 +18,7 @@ namespace GestionDeStock
         public int CategoriaId { get; set; }
         public string? Nombre { get; set; }
        [JsonIgnore] // evita ReferenceLoop (bucle de referencia)
-        public IEnumerable<Producto> Productos { get; set; }
+        public IEnumerable<Producto>? Productos { get; set; }
 
        
     }

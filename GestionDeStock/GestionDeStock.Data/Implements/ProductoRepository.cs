@@ -16,10 +16,16 @@ namespace GestionDeStock.Data.Implements
             _stockContext = gestionDeStockContext;
         }
 
-        public void Add(Producto producto)
+        public int Add(Producto producto)
         {
-            _stockContext.Productos.Add(producto);
-            _stockContext.SaveChanges();
+            if (!_stockContext.Productos.Any(x => x.Nombre.ToUpper() == producto.Nombre.ToUpper()))
+            {
+                _stockContext.Productos.Add(producto);
+                _stockContext.SaveChanges();
+                return 0;
+            }
+            return 1;
+            
         }
 
         public IEnumerable<Producto> GetAll()
@@ -28,7 +34,7 @@ namespace GestionDeStock.Data.Implements
             return _stockContext.Productos.Include("Categoria").ToList();
         }
         public Producto GetById(int id) { // verificar 
-            return _stockContext.Productos.Where(p => p.ProductoId == 1)
+            return _stockContext.Productos.Where(p => p.ProductoId == id)
                       .Include(p => p.Categoria)
                       .FirstOrDefault();
         }

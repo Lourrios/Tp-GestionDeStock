@@ -1,5 +1,7 @@
 ﻿using GestionDeStock.Data.Interfaces;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +13,9 @@ namespace GestionDeStock.Data.Implements
     public class CompraRespository :  ICompraRepository
     {
         private readonly GestionDeStockContext _stockContext;
-        public CompraRespository(GestionDeStockContext context) { }
+        public CompraRespository(GestionDeStockContext context) {
+            _stockContext = context;        
+        }
 
         public void Add(Compra compra)
         {
@@ -28,7 +32,8 @@ namespace GestionDeStock.Data.Implements
 
         public IEnumerable<Compra> GetAllCompras()
         {
-            return _stockContext.Compras.Include(c => c.Producto).Include(c => c.Usuario).ToList();
+            return _stockContext.Compras.Include(c => c.Producto).Include(c => c.Usuario).OrderByDescending(x => x.Fecha).ToList();
+           
         }
     }
 }

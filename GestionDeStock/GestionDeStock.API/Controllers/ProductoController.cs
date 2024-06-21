@@ -1,4 +1,5 @@
-﻿using GestionDeStock.Data;
+﻿using GestionDeStock.Business.Interfaces;
+using GestionDeStock.Data;
 using GestionDeStock.Data.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,38 +11,54 @@ namespace GestionDeStock.API.Controllers
     [ApiController]
     public class ProductoController : ControllerBase
     {
-        private readonly IProductoRepository _productoRepository;
-        public ProductoController( IProductoRepository productoRepository)
+        
+
+        private readonly IStockBusiness _stockBusiness;
+        private readonly IProductoBusiness _productoBusiness;
+
+        public ProductoController(IStockBusiness stockBusiness, IProductoBusiness productoBusiness)
         {
-            _productoRepository = productoRepository;
+            _stockBusiness = stockBusiness;
+            _productoBusiness = productoBusiness;
         }
 
         [HttpGet("ListaProductos")]
         public IEnumerable<Producto> GetProductos()
         {
             //return _stockContext.Productos.Include("Categoria").ToList();
-            return _productoRepository.GetAll();
+            return _productoBusiness.GetAllProductos();
 
         }
         [HttpGet("ProductoById")]
         public Producto GetProducto(int id)
         {
-            return _productoRepository.GetById(id);
+            return _productoBusiness.GetProductoById(id);
         }
-        [HttpPost("Agregar")]
-        public void AddProducto(Producto producto)
+
+        [HttpGet("{idProducto:int}/stock")]
+        public IActionResult ObtenerStock(int idProducto)
         {
-            _productoRepository.Add(producto);
+            var stock = _stockBusiness.ObtenerStockDeProducto(idProducto);
+            var producto = _productoBusiness.GetProductoById(idProducto);
+            return Ok(new { ProductoId = idProducto, Stock = stock });
         }
-        [HttpDelete("Eliminar/{id}")]
-        //public void DeleteProducto(int id)
-        //{
-        //    _productoRepository.DeleteById(id);
-        //}
+
+        [HttpPost("Agregar")]
+        public string AddProducto(Producto producto)
+        {
+            
+            var result =_productoBusiness.AddProducto(producto);
+            if (result != 0)
+            {
+                return "No pueden existir 2 productos iguales";
+            }
+            return "Producto agregado correctamente";
+        }
+       
         [HttpPut("Editar")]
         public void UpdateProducto(Producto producto)
         {
-            _productoRepository.Update(producto);
+            _productoBusiness.UpdateProducto(producto);
         }
 
     }

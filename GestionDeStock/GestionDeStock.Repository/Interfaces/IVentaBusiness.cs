@@ -8,7 +8,7 @@ namespace GestionDeStock.Business.Interfaces
 {
     public interface IVentaBusiness
     {
-        void RegistrarVenta(Venta venta);
+        int RegistrarVenta(Venta venta);
         Venta GetVentaById(int id);
         IEnumerable<Venta> GetAllVentas();
     }

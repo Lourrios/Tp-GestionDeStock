@@ -8,9 +8,10 @@ namespace GestionDeStock.Business.Interfaces
 {
     public interface ICompraBusiness
     {
-        void RegistrarCompra(Compra compra);
+        int RegistrarCompra(Compra compra);
         Compra GetCompraById(int id);
 
         IEnumerable<Compra> GetAllCompras();
+        //(IEnumerable<Compra>,int) GetComprasPaginado(int paginaIndex, int paginaTamanio, string textoBusqueda);
     }
 }

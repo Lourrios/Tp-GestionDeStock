@@ -19,9 +19,10 @@ namespace GestionDeStock
         public string? Nombre { get; set; }
         
         public int CategoriaId {  get; set; }
-        [JsonIgnore] 
+        
         [ForeignKey(nameof(CategoriaId))]
-        public Categoria Categoria { get; set; }
+        [JsonIgnore]
+        public Categoria? Categoria { get; set; }
 
         public bool Habilitado {  get; set; }
 
