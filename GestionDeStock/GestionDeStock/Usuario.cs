@@ -20,8 +20,5 @@ namespace GestionDeStock
         [JsonIgnore]
         public IEnumerable<Venta>? Ventas { get; set; }
 
-
-
-
     }
 }

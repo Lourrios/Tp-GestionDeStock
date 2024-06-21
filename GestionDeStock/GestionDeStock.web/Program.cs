@@ -1,3 +1,6 @@
+using GestionDeStock.Business.Autenticacion;
+using GestionDeStock.Business.Implements;
+using GestionDeStock.Business.Interfaces;
 using GestionDeStock.Data;
 using GestionDeStock.Data.Implements;
 using GestionDeStock.Data.Interfaces;
@@ -14,10 +17,12 @@ builder.Services.AddDbContext<GestionDeStockContext>(options =>
 
 });
 
-
 builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
 builder.Services.AddScoped<ICompraRepository, CompraRespository>();
 builder.Services.AddScoped<ICompraBusiness, CompraBusiness>();
+builder.Services.AddScoped<ILoginUsuario, LoginUsuario>();
+builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRespository>();
 
 var app = builder.Build();
 

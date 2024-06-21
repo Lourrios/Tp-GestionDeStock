@@ -28,5 +28,10 @@ namespace GestionDeStock.Data.Implements
             _stockContext.Usuarios.Add(usuario);
             _stockContext.SaveChanges();
         }
+        
+        public bool ExisteUsuario(string nombre)
+        {
+           return _stockContext.Usuarios.Any(u => u.Nombre == nombre);
+        }
     }
 }

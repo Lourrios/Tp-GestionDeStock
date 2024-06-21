@@ -8,7 +8,7 @@ namespace GestionDeStock.Business.Interfaces
 {
     public interface ILoginUsuario
     {
-        string RegistrarUsuario(Usuario usuario, string password);
-        public string VerificarUsuario(string usuario, string password);
+        bool RegistrarUsuario(Usuario usuario, string password);
+        public int VerificarUsuario(string usuario, string password);
     }
 }

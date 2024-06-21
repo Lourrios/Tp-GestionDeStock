@@ -21,9 +21,13 @@ namespace GestionDeStock.Business.Implements
             _usuarioRepository = usuarioRepository;
         }
 
-        public string RegistrarUsuario(Usuario usuario, string password) // usuario proveniente del form
+        public bool RegistrarUsuario(Usuario usuario, string password) // usuario proveniente del form
         {
-            
+            try {
+                if (_usuarioRepository.ExisteUsuario(usuario.Nombre))
+                {
+                    return false;
+                }
             // genero salt en bytes
             byte[] saltBytes = _passwordHasher.GenerateSalt();
             // hasheo la contraseña + salt
@@ -35,10 +39,15 @@ namespace GestionDeStock.Business.Implements
             usuario.Salt = base64Salt;
 
             _usuarioRepository.Add(usuario);
-            return "Usuario guardado correctamente.";
+            return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
-        public string VerificarUsuario(string usuarioNombre, string password) // usuario proveniente del form
+        public int VerificarUsuario(string usuarioNombre, string password) // usuario proveniente del form
         {
             var usuarioDB = _usuarioRepository.GetUsuarioByNombre(usuarioNombre);
             if (usuarioDB!= null)
@@ -55,14 +64,14 @@ namespace GestionDeStock.Business.Implements
                 // Compare the entered password hash with the stored hash
                 if (passwordActualHashed == passwordDB)
                 {
-                    return "Contraseña correcta.";
+                    return 1;
                 }
                 else
                 {
-                    return "Contraseña incorrecta.";
+                    return 2;
                 }
             }
-            return "Nombre de usuario no encontrado.";
+            return 0;
             
         }
     }

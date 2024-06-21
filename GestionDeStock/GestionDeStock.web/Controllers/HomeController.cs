@@ -19,14 +19,6 @@ namespace GestionDeStock.web.Controllers
             return View();
         }
 
-        public IActionResult Ventas()
-        {
-            return View();
-        }
-        public IActionResult Compras()
-        {
-            return View();
-        }
         public IActionResult Stock()
         {
             return View();
