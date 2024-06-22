@@ -1,9 +1,19 @@
 ﻿@model GestionDeStock.Data.ListaPaginada<GestionDeStock.Compra>
 @{
-    ViewData["Title"] = "Administrador de compras";
+    ViewData["Title"] = "Compras";
 }
-<h2>@ViewData["Title"]</h2>
 
+<h1>Listado de Compras</h1>
+
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Encontrar por nombre:  <input type="text" name="textoBusqueda" value="@ViewData["TextoBusqueda"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
 
 <table class="table table-striped table-hover">
     <thead class="thead-dark">
@@ -35,7 +45,20 @@
         }
     </tbody>
 </table>
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
 
-<button type="button" onclick="location.href='@Url.Action("AgregarCompra", "Home")'" class="btn btn-primary btn-sm">Agregar Compra</button>
 
-
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>
+<a asp-action="RegistrarCompra">Registrar Compra</a>

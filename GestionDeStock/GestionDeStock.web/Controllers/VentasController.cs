@@ -2,10 +2,10 @@
 
 namespace GestionDeStock.web.Controllers
 {
-    public class CompraController : Controller
+    public class VentasController : Controller
     {
 
-        public IActionResult Compras()
+        public IActionResult IndexVentas()
         {
             return View();
         }
