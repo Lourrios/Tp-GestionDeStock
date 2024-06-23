@@ -23,15 +23,14 @@ namespace GestionDeStock.Data.Implements
         {
             return _stockContext.Usuarios.FirstOrDefault(u => u.Nombre == nombre);
         }
+        public bool ExisteUsuario(string nombre)
+        {
+            return _stockContext.Usuarios.Any(u => u.Nombre == nombre);
+        }
         public void Add(Usuario usuario)
         {
             _stockContext.Usuarios.Add(usuario);
             _stockContext.SaveChanges();
-        }
-        
-        public bool ExisteUsuario(string nombre)
-        {
-           return _stockContext.Usuarios.Any(u => u.Nombre == nombre);
         }
     }
 }

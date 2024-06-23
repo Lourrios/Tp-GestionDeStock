@@ -14,10 +14,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<GestionDeStockContext>(options =>
     options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection")));
-
-builder.Services.AddDefaultIdentity<Usuario>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<GestionDeStockContext>();
+        builder.Configuration.GetConnectionString("StockConnection")));
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
@@ -25,6 +22,9 @@ builder.Services.AddRazorPages();
 builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
 builder.Services.AddScoped<ICompraRepository, CompraRespository>();
 builder.Services.AddScoped<ICompraBusiness, CompraBusiness>();
+builder.Services.AddScoped<IStockBusiness, StockBusiness>();
+builder.Services.AddScoped<IVentaBusiness, VentaBusiness>();
+builder.Services.AddScoped<IVentaRepository, VentaRepository>();
 builder.Services.AddScoped<ILoginUsuario, LoginUsuario>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();

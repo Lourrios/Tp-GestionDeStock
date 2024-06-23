@@ -1,0 +1,55 @@
+﻿@model GestionDeStock.Data.ListaPaginada<GestionDeStock.Venta>
+@{
+    ViewData["Title"] = "Ventas";
+}
+
+<h1>Listado de Ventas</h1>
+
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Encontrar por nombre:  <input type="text" name="textoBusqueda" value="@ViewData["TextoBusqueda"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+    <th>Fecha</th>
+    <th>Producto</th>
+    <th>Cantidad</th>
+    <th>Usuario</th>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Fecha)</td>
+                <td>@Html.DisplayFor(modelItem => item.Producto.Nombre)</td>
+                <td>@Html.DisplayFor(modelItem => item.Cantidad)</td>
+                <td>@Html.DisplayFor(modelItem => item.Usuario.Nombre)</td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>
+<a asp-action="FormVenta">Registrar Venta</a>
+@* <a asp-action="Paginacion">Compras Paginadas</a> *@

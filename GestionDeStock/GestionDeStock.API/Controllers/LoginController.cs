@@ -14,7 +14,7 @@ namespace GestionDeStock.API.Controllers
              _loginUsuario = login;
         }
         [HttpPost("registrarUsuario/{password}")]
-        public string RegistrarUsuario([FromBody]Usuario user, string password)
+        public bool RegistrarUsuario([FromBody]Usuario user, string password)
         {
            return _loginUsuario.RegistrarUsuario(user, password);
 

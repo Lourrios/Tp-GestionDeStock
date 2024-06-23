@@ -13,8 +13,8 @@ namespace GestionDeStock.Data.Interfaces
         Usuario GetById(int id);
 
         Usuario GetUsuarioByNombre(string nombre);
+        bool ExisteUsuario(string nombre);
         void Add(Usuario usuario);
 
-        bool ExisteUsuario(string nombre);
     }
 }

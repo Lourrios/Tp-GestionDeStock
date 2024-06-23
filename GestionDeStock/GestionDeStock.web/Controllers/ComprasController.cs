@@ -1,5 +1,6 @@
 ﻿using GestionDeStock.Business.Interfaces;
 using GestionDeStock.Data;
+using GestionDeStock.Data.Implements;
 using GestionDeStock.Data.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,77 +13,70 @@ namespace GestionDeStock.web.Controllers
     {
         private readonly ICompraBusiness _compraBusiness;
         private readonly IProductoRepository _productoRepository;
-        private readonly UserManager<Usuario> _userManager;
-
-        public ComprasController(UserManager<Usuario> userManager, IProductoRepository productoRepository, ICompraBusiness compraBusiness)
+        public ComprasController(ICompraBusiness compraBusiness, IProductoRepository productoRepository)
         {
-            _userManager = userManager;
-            _productoRepository = productoRepository;
             _compraBusiness = compraBusiness;
+            _productoRepository = productoRepository;
         }
-
-        private async Task<Usuario> GetCurrentUserAsync()
-        {
-            return await _userManager.GetUserAsync(HttpContext.User);
-        }
-
-        [HttpGet]
-        public IActionResult IndexCompras(int pageNumber = 1, string textoBusqueda = "")
+        public IActionResult IndexCompras(int pageNumber, string textoBusqueda/*, string currenteFilter*/)
         {
             var listaCompras = _compraBusiness.GetAllCompras();
-            ViewData["TextoBusqueda"] = textoBusqueda;
+            ViewData["TextoBusqueda"] = textoBusqueda; // para settar texto d busqueda desde la vista
 
-            int cantidadRegistros = 3;
-
+            int cantidadRegistros = 4;
             if (!String.IsNullOrEmpty(textoBusqueda))
             {
-                listaCompras = listaCompras.Where(x => x.Producto.Nombre.ToUpper().Contains(textoBusqueda.ToUpper()) || x.Usuario.Nombre.ToUpper().Contains(textoBusqueda.ToUpper())).ToList();
-            }
+                var listFiltrada = listaCompras.Where(x => x.Producto.Nombre.ToUpper().Contains(textoBusqueda.ToUpper()) || x.Usuario.Nombre.ToUpper().Contains(textoBusqueda.ToUpper()));
+                var comprasPaginada1 = ListaPaginada<Compra>.CrearLista(listFiltrada, pageNumber, cantidadRegistros);
+                return View(comprasPaginada1);
 
+            }
             var comprasPaginada = ListaPaginada<Compra>.CrearLista(listaCompras, pageNumber, cantidadRegistros);
             return View(comprasPaginada);
+
         }
 
-        [HttpGet]
         public IActionResult RegistrarCompra()
         {
-            ViewBag.Productos = new SelectList(_productoRepository.GetAll(), "Id", "Nombre");
+            var productos = _productoRepository.GetAll();
+
+            // Mapear la lista de productos a SelectListItems para la lista desplegable
+            ViewBag.Productos = new SelectList(productos, "ProductoId", "Nombre");
+
             return View();
         }
-
         [HttpPost]
-        public async Task<IActionResult> RegistrarCompra([Bind("Fecha,ProductoId,Cantidad")] Compra compra)
+        public IActionResult RegistrarCompra([Bind("Fecha,ProductoId,Cantidad,UsuarioId")] Compra compra)
         {
-            var usuarioActual = await GetCurrentUserAsync();
-            compra.UsuarioId = usuarioActual.UsuarioId;
-
             var fechaActual = DateTime.Now;
-            if (compra.Fecha > fechaActual.AddHours(1))
+            if (compra.Fecha > fechaActual.AddHours(1)) // 1 hora para que no impida la dif de segundos
             {
-                ViewBag.Alert = "Lo sentimos, no se pueden cargar fechas futuras";
-                ViewBag.Productos = new SelectList(_productoRepository.GetAll(), "Id", "Nombre");
-                return View();
+                ViewBag.Alert = "Lo sentimos, No se pueden cargar fechas futuras";
+                return View("RegistrarCompra");
             }
             else if (compra.Fecha < fechaActual.AddDays(-7))
             {
-                ViewBag.Alert = "Lo sentimos, no se pueden cargar fechas menores a 7 días.";
-                ViewBag.Productos = new SelectList(_productoRepository.GetAll(), "Id", "Nombre");
-                return View();
+                ViewBag.Alert = "Lo sentimos, No se pueden cargar fechas menores a 7 dias.";
+                return View("RegistrarCompra");
             }
             try
             {
                 if (ModelState.IsValid)
                 {
                     _compraBusiness.RegistrarCompra(compra);
-                    return RedirectToAction(nameof(IndexCompras));
+                    return RedirectToAction(nameof(IndexCompras)); // redirecciona a index compras
                 }
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException /* ex */)
             {
-                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+                //Log the error (uncomment ex variable name and write a log.
+                ModelState.AddModelError("", "Unable to save changes. " +
+                    "Try again, and if the problem persists " +
+                    "see your system administrator.");
             }
-            ViewBag.Productos = new SelectList(_productoRepository.GetAll(), "Id", "Nombre");
             return View(compra);
+
+
         }
     }
 

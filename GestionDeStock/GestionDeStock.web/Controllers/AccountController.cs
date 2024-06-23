@@ -37,9 +37,16 @@ namespace GestionDeStock.web.Controllers
                 {
                     
                     return RedirectToAction("Index", "Home"); // Redirigir al inicio después del login exitoso
+                }else if (result == 2)
+                {
+                    ModelState.AddModelError(string.Empty, "Contraseña incorrecta");
                 }
-                    ModelState.AddModelError(string.Empty, "Credenciales inválidas");
-                
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "El usuario no existe");
+
+                }
+
 
             }
             return View(model); // Devolver la vista de login con el modelo para mostrar los errores
@@ -72,7 +79,7 @@ namespace GestionDeStock.web.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, "Error al registrar el usuario. El nombre de usuario ya esté en uso.");
+                        ModelState.AddModelError(string.Empty, "El nombre de usuario ya está en uso");
                     }
                 }
                 else
