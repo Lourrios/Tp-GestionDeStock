@@ -17,7 +17,7 @@ namespace GestionDeStock
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CategoriaId { get; set; }
         public string? Nombre { get; set; }
-       [JsonIgnore] // evita ReferenceLoop (bucle de referencia)
+       //[JsonIgnore] // evita ReferenceLoop (bucle de referencia)
         public IEnumerable<Producto>? Productos { get; set; }
 
        

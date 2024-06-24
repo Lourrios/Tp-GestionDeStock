@@ -26,6 +26,8 @@ namespace GestionDeStock
 
         public bool Habilitado {  get; set; }
 
+        public decimal Precio { get; set; }
+
         
 
     }

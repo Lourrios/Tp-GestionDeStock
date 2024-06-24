@@ -24,6 +24,8 @@ builder.Services.AddScoped<IUsuarioBusiness, UsuarioBusiness>();
 builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
 builder.Services.AddScoped<ICompraRepository, CompraRespository>();
 builder.Services.AddScoped<ICompraBusiness, CompraBusiness>();
+builder.Services.AddScoped<ICategoriaBusiness, CategoriaBusiness>();
+builder.Services.AddScoped<ICategoriaRepository, CategoriaRespository>();
 builder.Services.AddScoped<IStockBusiness, StockBusiness>();
 builder.Services.AddScoped<IVentaBusiness, VentaBusiness>();
 builder.Services.AddScoped<IVentaRepository, VentaRepository>();
