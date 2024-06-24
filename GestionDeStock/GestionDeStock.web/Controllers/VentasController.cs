@@ -1,12 +1,15 @@
 ﻿using GestionDeStock.Business.Interfaces;
 using GestionDeStock.Data;
 using GestionDeStock.Data.Interfaces;
+using GestionDeStock.web.Models;
+using GestionDeStock.web.Permisos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace GestionDeStock.web.Controllers
 {
+    [ValidarSesion]
     public class VentasController : Controller
     {
 
@@ -19,18 +22,18 @@ namespace GestionDeStock.web.Controllers
             _productoRepository = productoRepository;
         }
 
-        public IActionResult Index(int pageNumber, string textoBusqueda)
+        public IActionResult Index(int pageNumber = 1, string textoBusqueda = "")
         {
             var listaVentas = _ventaBusiness.GetAllVentas();
             // ordenar aquí
             // filtrar aquí
             ViewData["TextoBusqueda"] = textoBusqueda; // para settar texto d busqueda desde la vista
 
-            int cantidadRegistros = 3;
+            int cantidadRegistros = 5;
 
             if (!String.IsNullOrEmpty(textoBusqueda))
             {
-                var listFiltrada = listaVentas.Where(x => x.Producto.Nombre.ToUpper().Contains(textoBusqueda.ToUpper()) || x.Usuario.Nombre.ToUpper().Contains(textoBusqueda.ToUpper()));
+                var listFiltrada = listaVentas.Where(x => x.Producto.Nombre.ToUpper().Contains(textoBusqueda.ToUpper()));
                 var ventasPaginadaFiltrada = ListaPaginada<Venta>.CrearLista(listFiltrada, pageNumber, cantidadRegistros);
                 return View(ventasPaginadaFiltrada);
 
@@ -54,6 +57,9 @@ namespace GestionDeStock.web.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    var usuarioModel = HttpContext.Session.GetObject<Usuario>("UsuarioModel");
+                    venta.UsuarioId = usuarioModel.UsuarioId;
+
                     var resutl = _ventaBusiness.RegistrarVenta(venta);
                     if (resutl != null)
                     {

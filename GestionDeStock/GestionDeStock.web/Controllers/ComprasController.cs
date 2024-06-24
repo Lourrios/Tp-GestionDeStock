@@ -1,14 +1,15 @@
 ﻿using GestionDeStock.Business.Interfaces;
 using GestionDeStock.Data;
-using GestionDeStock.Data.Implements;
 using GestionDeStock.Data.Interfaces;
-using Microsoft.AspNetCore.Identity;
+using GestionDeStock.web.Models;
+using GestionDeStock.web.Permisos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace GestionDeStock.web.Controllers
 {
+    [ValidarSesion]
     public class ComprasController : Controller
     {
         private readonly ICompraBusiness _compraBusiness;
@@ -18,15 +19,15 @@ namespace GestionDeStock.web.Controllers
             _compraBusiness = compraBusiness;
             _productoRepository = productoRepository;
         }
-        public IActionResult IndexCompras(int pageNumber, string textoBusqueda/*, string currenteFilter*/)
+        public IActionResult IndexCompras(int pageNumber = 1, string textoBusqueda = "")
         {
             var listaCompras = _compraBusiness.GetAllCompras();
             ViewData["TextoBusqueda"] = textoBusqueda; // para settar texto d busqueda desde la vista
 
-            int cantidadRegistros = 4;
+            int cantidadRegistros = 5;
             if (!String.IsNullOrEmpty(textoBusqueda))
             {
-                var listFiltrada = listaCompras.Where(x => x.Producto.Nombre.ToUpper().Contains(textoBusqueda.ToUpper()) || x.Usuario.Nombre.ToUpper().Contains(textoBusqueda.ToUpper()));
+                var listFiltrada = listaCompras.Where(x => x.Producto.Nombre.ToUpper().Contains(textoBusqueda.ToUpper()));
                 var comprasPaginada1 = ListaPaginada<Compra>.CrearLista(listFiltrada, pageNumber, cantidadRegistros);
                 return View(comprasPaginada1);
 
@@ -39,44 +40,51 @@ namespace GestionDeStock.web.Controllers
         public IActionResult RegistrarCompra()
         {
             var productos = _productoRepository.GetAll();
+            var listaProducto = productos.ToList();
 
             // Mapear la lista de productos a SelectListItems para la lista desplegable
-            ViewBag.Productos = new SelectList(productos, "ProductoId", "Nombre");
-
-            return View();
+            var productosList = new SelectList(listaProducto, "ProductoId", "Nombre");
+            ViewBag.Productos = productosList;
+            return View("RegistrarCompra");
         }
         [HttpPost]
-        public IActionResult RegistrarCompra([Bind("Fecha,ProductoId,Cantidad,UsuarioId")] Compra compra)
+        public IActionResult RegistrarCompra([Bind("Fecha,ProductoId,Cantidad")] Compra compra)
         {
+            var usuarioModel = HttpContext.Session.GetObject<Usuario>("UsuarioModel");
+            compra.UsuarioId = usuarioModel.UsuarioId;
             var fechaActual = DateTime.Now;
+
             if (compra.Fecha > fechaActual.AddHours(1)) // 1 hora para que no impida la dif de segundos
             {
                 ViewBag.Alert = "Lo sentimos, No se pueden cargar fechas futuras";
-                return View("RegistrarCompra");
+
             }
             else if (compra.Fecha < fechaActual.AddDays(-7))
             {
                 ViewBag.Alert = "Lo sentimos, No se pueden cargar fechas menores a 7 dias.";
-                return View("RegistrarCompra");
             }
-            try
+            else
             {
                 if (ModelState.IsValid)
                 {
-                    _compraBusiness.RegistrarCompra(compra);
-                    return RedirectToAction(nameof(IndexCompras)); // redirecciona a index compras
+                    var resultCompra = _compraBusiness.RegistrarCompra(compra);
+                    if (resultCompra == 0)
+                    {
+                        return RedirectToAction(nameof(IndexCompras)); // redirecciona a index compras
+                    }
+                    else
+                    {
+                        ViewBag.Alert = "Error al cargar la compra";
+                    }
+                    
                 }
             }
-            catch (DbUpdateException /* ex */)
-            {
-                //Log the error (uncomment ex variable name and write a log.
-                ModelState.AddModelError("", "Unable to save changes. " +
-                    "Try again, and if the problem persists " +
-                    "see your system administrator.");
-            }
-            return View(compra);
 
 
+            var productos = _productoRepository.GetAll();
+            ViewBag.Productos = new SelectList(productos, "ProductoId", "Nombre");
+
+            return View("RegistrarCompra", compra);
         }
     }
 

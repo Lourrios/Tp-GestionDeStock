@@ -1,9 +1,11 @@
 using GestionDeStock.web.Models;
+using GestionDeStock.web.Permisos;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace GestionDeStock.web.Controllers
 {
+    [ValidarSesion]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

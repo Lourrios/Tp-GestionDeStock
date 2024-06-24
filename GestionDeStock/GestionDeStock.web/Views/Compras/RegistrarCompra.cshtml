@@ -5,22 +5,9 @@
 }
 
 <h1>Crear Compra</h1>
-
-<h4>Compra</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        @if (!ViewData.ModelState.IsValid)
-        {
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-                    {
-                        <li>@error.ErrorMessage</li>
-                    }
-                </ul>
-            </div>
-        }
         <form asp-action="RegistrarCompra">
             <!-- nombre action-->
             <div class="form-group">
@@ -29,9 +16,9 @@
                 <span asp-validation-for="Fecha" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ProductoId" class="control-label"></label>
+                <label asp-for="Producto" class="control-label"></label>
                 @* Mostrar lista desplegable de productos *@
-                @Html.DropDownListFor(model => model.ProductoId, (SelectList)ViewBag.Productos, "-- Seleccione un producto --", new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.ProductoId, (IEnumerable<SelectListItem>)ViewBag.Productos, "-- Seleccione un producto --", new { @class = "form-control" })
                 <span asp-validation-for="ProductoId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -39,13 +26,13 @@
                 <input asp-for="Cantidad" class="form-control" />
                 <span asp-validation-for="Cantidad" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @* <div class="form-group">
                 <label asp-for="UsuarioId" class="control-label"></label>
                 <input asp-for="UsuarioId" class="form-control" />
                 <span asp-validation-for="UsuarioId" class="text-danger"></span>
-            </div>
+            </div> *@
             <div class="form-group">
-                <input type="submit" value="crear" class="btn btn-primary" />
+                <input type="submit" value="crear" class="btn btn-outline-primary" />
             </div>
         </form>
         @if (ViewBag.Alert != null)

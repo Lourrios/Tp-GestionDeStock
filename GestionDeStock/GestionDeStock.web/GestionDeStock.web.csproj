@@ -17,4 +17,8 @@
     <ProjectReference Include="..\GestionDeStock\GestionDeStock.Entities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Permisos\" />
+  </ItemGroup>
+
 </Project>

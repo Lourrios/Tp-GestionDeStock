@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using GestionDeStock.web.Models;
 using GestionDeStock.Business.Interfaces;
+using GestionDeStock.Business.Implements;
 
 namespace GestionDeStock.web.Controllers
 {
@@ -11,10 +12,24 @@ namespace GestionDeStock.web.Controllers
     public class AccountController : Controller
     {
         private readonly ILoginUsuario _loginUsuario;
+        private readonly IUsuarioBusiness _usuarioBusiness;
 
-        public AccountController(ILoginUsuario loginUsuario)
+        public AccountController(ILoginUsuario loginUsuario, IUsuarioBusiness usuarioBusiness)
         {
             _loginUsuario = loginUsuario;
+            _usuarioBusiness = usuarioBusiness;
+        }
+        // Acción para cerrar sesión
+        public IActionResult CerrarSesion()
+        {
+            // Eliminar la sesión del usuario
+            HttpContext.Session.Remove("UsuarioModel");
+
+            // Opción adicional para limpiar todas las sesiones
+            // HttpContext.Session.Clear();
+
+            // Redirigir al login
+            return RedirectToAction("Login", "Account");
         }
 
         public IActionResult LogIn()
@@ -30,12 +45,13 @@ namespace GestionDeStock.web.Controllers
         public IActionResult Login(LoginViewModel model)
         {
             
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 var result = _loginUsuario.VerificarUsuario(model.User, model.Password);
+                var usuarioDB = _usuarioBusiness.GetUsuarioByNombre(model.User);
                 if (result == 1)
                 {
-                    
+                    HttpContext.Session.SetObject("UsuarioModel", usuarioDB);
                     return RedirectToAction("Index", "Home"); // Redirigir al inicio después del login exitoso
                 }else if (result == 2)
                 {
@@ -48,7 +64,7 @@ namespace GestionDeStock.web.Controllers
                 }
 
 
-            }
+            //}
             return View(model); // Devolver la vista de login con el modelo para mostrar los errores
         }
 
