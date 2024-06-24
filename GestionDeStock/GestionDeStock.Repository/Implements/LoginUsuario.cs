@@ -21,8 +21,12 @@ namespace GestionDeStock.Business.Implements
             _usuarioRepository = usuarioRepository;
         }
 
-        public string RegistrarUsuario(Usuario usuario, string password) // usuario proveniente del formulario
+        public bool RegistrarUsuario(Usuario usuario, string password) // usuario proveniente del formulario
         {
+            if (_usuarioRepository.GetUsuarioByNombre(usuario.Nombre) != null)
+            {
+                return false;
+            }
             
             // genero salt en bytes
             byte[] saltBytes = _passwordHasher.GenerateSalt();
@@ -35,13 +39,15 @@ namespace GestionDeStock.Business.Implements
             usuario.Salt = base64Salt;
 
             _usuarioRepository.Add(usuario);
-            return "Usuario guardado correctamente.";
+            //return "Usuario guardado correctamente.";
+            return true;
         }
 
-        public string VerificarUsuario(string usuarioNombre, string password) // usuario proveniente del form
+      
+        public int VerificarUsuario(string usuarioNombre, string password) // usuario proveniente del form
         {
             var usuarioDB = _usuarioRepository.GetUsuarioByNombre(usuarioNombre);
-            if (usuarioDB!= null)
+            if (usuarioDB != null)
             {
                 // contraseña almacenada
                 string passwordDB = usuarioDB.Hash;
@@ -49,21 +55,22 @@ namespace GestionDeStock.Business.Implements
                 string saltDB = usuarioDB.Salt;
                 // lo pasamos a byte[]
                 byte[] saltDbBytes = Convert.FromBase64String(saltDB);
-                
+
                 // hasheamos contraseña actual + salto de la base de datos 
                 string passwordActualHashed = Convert.ToBase64String(_passwordHasher.GenerateHashPassword(password, saltDbBytes));
                 // Compare the entered password hash with the stored hash
                 if (passwordActualHashed == passwordDB)
                 {
-                    return "Contraseña correcta.";
+
+                    return 1;
                 }
                 else
                 {
-                    return "Contraseña incorrecta.";
+                    return 2;
                 }
             }
-            return "Nombre de usuario no encontrado.";
-            
+            return 3;
+
         }
     }
 }

@@ -19,9 +19,6 @@ builder.Services.AddDbContext<GestionDeStockContext>(options =>
 builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
 builder.Services.AddScoped<ICompraRepository, CompraRespository>();
 builder.Services.AddScoped<IVentaRepository, VentaRepository>();
-builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-builder.Services.AddScoped<ILoginUsuario, LoginUsuario>();
-builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IProductoBusiness, ProductoBusiness>();
 builder.Services.AddScoped<IStockBusiness, StockBusiness>();
 

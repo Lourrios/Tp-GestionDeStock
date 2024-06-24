@@ -1,0 +1,44 @@
+﻿@* @model GestionDeStock.Entities.Paginacion.CompraPagina
+
+<form method="get" action="@Url.Action("Paginacion")">
+    <input type="text" name="searchText" value="@Model.TextoBusqueda" placeholder="Buscar..." />
+    <input type="submit" value="Buscar" />
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Cantidad</th>
+            <th>Producto</th>
+            <th>Usuario</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var compra in Model.Compras)
+        {
+            <tr>
+                <td>@compra.Fecha</td>
+                <td>@compra.Cantidad</td>
+                <td>@compra.Producto?.Nombre</td>
+                <td>@compra.Usuario?.Nombre</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+     @* @if (Model.PaginaIndice > 0)
+    { 
+        <a href="@Url.Action("Paginacion", new { pageIndex = Model.PaginaIndice - 1, pageSize = Model.PaginaTamanio, searchText = Model.TextoBusqueda})">Anterior</a>
+     } 
+     @if (Model.PaginaIndice < (Model.TotalPaginas / Model.PaginaTamanio))
+    { 
+        <a href="@Url.Action("Paginacion", new { pageIndex = Model.PaginaIndice + 1, pageSize = Model.PaginaTamanio, searchText = Model.TextoBusqueda })">Siguiente</a>
+    }  *@
+    @* <a href="@Url.Action("Paginacion", new { pageIndex = Model.PaginaIndice - 1, pageSize = Model.PaginaTamanio, searchText = Model.TextoBusqueda})">Anterior</a>
+    <a href="@Url.Action("Paginacion", new { pageIndex = Model.PaginaIndice + 1, pageSize = Model.PaginaTamanio, searchText = Model.TextoBusqueda })">Siguiente</a>
+
+</div> *@
+
+ 

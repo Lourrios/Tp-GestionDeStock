@@ -1,0 +1,48 @@
+﻿@model GestionDeStock.Compra
+
+@{
+    ViewData["Title"] = "Crear Compra";
+}
+
+<h1>Crear Compra</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="RegistrarCompra">
+            <!-- nombre action-->
+            <div class="form-group">
+                <label asp-for="Fecha" class="control-label"></label>
+                <input asp-for="Fecha" class="form-control" />
+                <span asp-validation-for="Fecha" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Producto" class="control-label"></label>
+                @* Mostrar lista desplegable de productos *@
+                @Html.DropDownListFor(model => model.ProductoId, (IEnumerable<SelectListItem>)ViewBag.Productos, "-- Seleccione un producto --", new { @class = "form-control" })
+                <span asp-validation-for="ProductoId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cantidad" class="control-label"></label>
+                <input asp-for="Cantidad" class="form-control" />
+                <span asp-validation-for="Cantidad" class="text-danger"></span>
+            </div>
+            @* <div class="form-group">
+                <label asp-for="UsuarioId" class="control-label"></label>
+                <input asp-for="UsuarioId" class="form-control" />
+                <span asp-validation-for="UsuarioId" class="text-danger"></span>
+            </div> *@
+            <div class="form-group">
+                <input type="submit" value="crear" class="btn btn-outline-primary" />
+            </div>
+        </form>
+        @if (ViewBag.Alert != null)
+        {
+            <div class="alert alert-dismissable alert-danger">
+                <button type="button" class="close" data-dismiss="alert">
+                    &times;
+                </button>
+                <strong>Aviso!</strong> @ViewBag.Alert
+            </div>
+        }
+    </div>
+</div>

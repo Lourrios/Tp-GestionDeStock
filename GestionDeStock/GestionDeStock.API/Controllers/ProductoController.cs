@@ -25,14 +25,20 @@ namespace GestionDeStock.API.Controllers
         [HttpGet("ListaProductos")]
         public IEnumerable<Producto> GetProductos()
         {
-            //return _stockContext.Productos.Include("Categoria").ToList();
+
             return _productoBusiness.GetAllProductos();
 
         }
         [HttpGet("ProductoById")]
-        public Producto GetProducto(int id)
+        public IActionResult GetProducto(int idProducto)
         {
-            return _productoBusiness.GetProductoById(id);
+            var producto = _productoBusiness.GetProductoById(idProducto);
+            if (producto != null)
+            {
+                return Ok(new { ProductoId = idProducto,  Nombre = producto.Nombre , Categoria = producto.Categoria, Habilitado= producto.Habilitado});
+
+            }
+            return NotFound("Producto inexistente");
         }
 
         [HttpGet("{idProducto:int}/stock")]
@@ -40,26 +46,17 @@ namespace GestionDeStock.API.Controllers
         {
             var stock = _stockBusiness.ObtenerStockDeProducto(idProducto);
             var producto = _productoBusiness.GetProductoById(idProducto);
-            return Ok(new { ProductoId = idProducto, Stock = stock });
+            if (producto != null)
+            {
+                return Ok(new { ProductoId = idProducto, Stock = stock, Nombre = producto.Nombre });
+
+            }
+            return NotFound("Producto inexistente");
         }
 
-        [HttpPost("Agregar")]
-        public string AddProducto(Producto producto)
-        {
-            
-            var result =_productoBusiness.AddProducto(producto);
-            if (result != 0)
-            {
-                return "No pueden existir 2 productos iguales";
-            }
-            return "Producto agregado correctamente";
-        }
        
-        [HttpPut("Editar")]
-        public void UpdateProducto(Producto producto)
-        {
-            _productoBusiness.UpdateProducto(producto);
-        }
+       
+       
 
     }
 }
